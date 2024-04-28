@@ -1,3 +1,4 @@
+import { useAuthentication } from '../../hooks/useAuthentication'
 import styles from './Register.module.css'
 
 import { useState, useEffect } from 'react'
@@ -10,25 +11,41 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState ("")
   const [error, setError] = useState("")
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  const {createUser, error: authError, loading } = useAuthentication()
 
-    setError("")
+  const handleSubmit = async (e) => {
+		e.preventDefault();
+		setError('');
 
-    const user = {
-      displayName,
-      email,
-      password
-    }
+		const user = {
+			displayName,
+			email,
+			password
+		}
 
-    if(password !== confirmPassword){
-      setError("As senhas precisam ser iguais!")
-      return
-    }
+		if(password !== confirmPassword) {
+			setError('As senhas precisam ser iguais!');
+			return;
+		}
 
-    console.log(user)
+		const res = await createUser(user);
 
+		console.log(res);
+
+		setDisplayName('');
+		setEmail('');
+		setPassword('');
+		setConfirmPassword('');
+	}
+
+ // Mapear se o erro do firebase mudou
+ useEffect(() => {
+
+  if(authError) {
+    setError(authError);
   }
+
+}, [authError])
 
 
   return (
@@ -88,7 +105,8 @@ const Register = () => {
                  
             </label>
 
-            <button className='btn'>Cadastrar</button>
+            {!loading && <button className='btn'>Cadastrar</button>}
+            {loading && <button className='btn' disabled>Aguarde...</button>}
 
             {error && <p className="error">{error}</p>}
 
