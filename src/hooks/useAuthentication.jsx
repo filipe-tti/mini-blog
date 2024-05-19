@@ -25,6 +25,9 @@ export const useAuthentication = () => {
 			return;
 		}
 	}
+	//Register
+
+
 
 	// Criação do usuário com firebase
 	const createUser = async (data) => {
@@ -67,8 +70,9 @@ export const useAuthentication = () => {
 				systemErrorMessage = 'Ocorreu um erro, por favor tente novamente mais tarde.';
 			}
 
-			setLoading(false);
+			
 			setError(systemErrorMessage);
+			setLoading(false);
 		}
 	}
 
@@ -110,8 +114,9 @@ export const useAuthentication = () => {
 				systemErrorMessage = 'Ocorreu um erro, por favor tente novamente mais tarde.';
 			}
 
-			setLoading(false);
+			
 			setError(systemErrorMessage);
+			setLoading(false);
 		}
 	}
 
@@ -127,6 +132,6 @@ export const useAuthentication = () => {
 		error,
 		loading,
 		logout,
-		login
+		login,
 	}
 }
